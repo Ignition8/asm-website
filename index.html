@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="tr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bağcılar 20 Nolu Aile Sağlığı Merkezi</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            scroll-behavior: smooth; 
+            transition: background-color 0.3s, color 0.3s; 
+            background-color: #ffffff;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2070&auto=format&fit=crop');
+            background-attachment: fixed; background-size: cover; background-position: center;
+        }
+        
+        .hero-section { 
+            background: linear-gradient(135deg, rgba(13,110,253,0.92) 0%, rgba(0,168,255,0.92) 100%), url('https://images.unsplash.com/photo-1584982751601-97dcc096659c?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            color: white; padding: 120px 0 80px 0; text-align: center; 
+        }
+        
+        .navbar { box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: background-color 0.3s; }
+        .section-padding { padding: 80px 0; }
+        
+        .bg-light-gray { background-color: rgba(248, 249, 250, 0.85); }
+        .person-card, .service-card { background: white; border: 1px solid #e9ecef; }
+        
+        [data-bs-theme="dark"] body { 
+            background-image: linear-gradient(rgba(18, 18, 18, 0.96), rgba(18, 18, 18, 0.96)), url('https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2070&auto=format&fit=crop');
+        }
+        [data-bs-theme="dark"] .bg-light-gray { background-color: rgba(26, 26, 26, 0.85); }
+        [data-bs-theme="dark"] .person-card, [data-bs-theme="dark"] .service-card { background: #1e1e1e; border: 1px solid #333; color: #fff; }
+        [data-bs-theme="dark"] .navbar { background-color: #1e1e1e !important; }
+        [data-bs-theme="dark"] .navbar-brand, [data-bs-theme="dark"] .nav-link { color: #fff !important; }
+        [data-bs-theme="dark"] .nurse-info { background: #2d2d2d; color: #ddd; }
+        [data-bs-theme="dark"] .modal-content { background-color: #1e1e1e; color: #fff; }
+        [data-bs-theme="dark"] .modal-header { border-bottom-color: #333; }
+        [data-bs-theme="dark"] .bg-light { background-color: #2d2d2d !important; border-color: #444 !important; }
+        
+        .person-card, .service-card {
+            border-radius: 12px; padding: 25px 20px; text-align: center;
+            transition: all 0.3s ease; position: relative; overflow: hidden; height: 100%;
+        }
+        .person-card { cursor: pointer; }
+        .person-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(13,110,253,0.15); border-color: #0d6efd; }
+        .person-card.staff-card { cursor: default; } 
+        .person-card.staff-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-color: #6c757d; }
+        
+        .service-card { cursor: default; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(32, 201, 151, 0.15); border-color: #20c997; }
+        
+        .avatar-icon {
+            width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 30px; margin: 0 auto 15px auto;
+        }
+        .avatar-dr-m { background-color: rgba(13, 110, 253, 0.1); color: #0d6efd; } 
+        .avatar-dr-f { background-color: rgba(214, 51, 132, 0.1); color: #d63384; } 
+        .avatar-nurse { background-color: rgba(32, 201, 151, 0.1); color: #20c997; } 
+        .avatar-staff { background-color: rgba(255, 193, 7, 0.1); color: #ffc107; } 
+        .avatar-service { background-color: rgba(32, 201, 151, 0.1); color: #20c997; font-size: 26px; } 
+        
+        .birim-no { color: #6c757d; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; }
+        .nurse-info { font-size: 0.9rem; padding: 5px 10px; border-radius: 20px; display: inline-block; margin-top: 10px;}
+        .contact-info-box { background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 50px; display: inline-block; margin-bottom: 20px; font-weight: 500; backdrop-filter: blur(5px);}
+        
+        .theme-toggle-btn {
+            background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #6c757d;
+            padding: 0.5rem; transition: color 0.3s;
+        }
+        [data-bs-theme="dark"] .theme-toggle-btn { color: #fff; }
+        .theme-toggle-btn:hover { color: #0d6efd; }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbar" tabindex="0">
+
+    <!-- ÜST MENÜ -->
+    <nav id="navbar" class="navbar navbar-expand-lg bg-white sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#">
+                <i class="fa-solid fa-notes-medical me-2"></i>Bağcılar 20 Nolu ASM
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#hekimler">Hekimlerimiz</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#personel">Personelimiz</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#hizmetler">Hizmetlerimiz</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#galeri">Foto Galeri</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#iletisim">İletişim</a></li>
+                </ul>
+                <button class="theme-toggle-btn ms-lg-3 mt-2 mt-lg-0" id="themeToggle" aria-label="Temayı Değiştir">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- KARŞILAMA EKRANI -->
+    <header class="hero-section">
+        <div class="container position-relative z-1">
+            <h1 class="display-4 fw-bold mb-3">T.C. Sağlık Bakanlığı<br>Bağcılar 20 Nolu Aile Sağlığı Merkezi</h1>
+            
+            <div class="contact-info-box mt-3 mb-4">
+                <i class="fa-solid fa-phone me-2"></i> (0212) 446 75 22
+            </div>
+            
+            <p class="lead mb-4 opacity-75 d-block">Koruyucu sağlık hizmetleri ve birinci basamak teşhis/tedavi merkezi</p>
+            
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+                <a href="https://mhrs.gov.tr" target="_blank" class="btn btn-light btn-lg rounded-pill text-primary fw-bold px-4 shadow-sm">
+                    <i class="fa-regular fa-calendar-check me-2"></i>MHRS Randevu Al
+                </a>
+                <a href="https://enabiz.gov.tr" target="_blank" class="btn btn-outline-light btn-lg rounded-pill px-4 ms-2 mt-2 mt-md-0">
+                    <i class="fa-solid fa-flask me-2"></i>Tahlil Sonuçları
+                </a>
+            </div>
+            
+            <p class="text-white opacity-75 fw-medium"><i class="fa-solid fa-phone-volume me-2"></i>Randevu işlemlerinizi MHRS üzerinden veya doğrudan <strong>ALO 182</strong>'yi arayarak gerçekleştirebilirsiniz.</p>
+        </div>
+    </header>
+
+    <!-- HEKİMLERİMİZ (Dinamik Alan) -->
+    <section id="hekimler" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="text-primary fw-bold">Aile Hekimlerimiz</h2>
+                <div class="mx-auto bg-primary mt-2 mb-4" style="width: 60px; height: 3px; border-radius: 3px;"></div>
+                
+                <button class="btn btn-outline-primary mb-4 fw-semibold shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#genelMesaiModal">
+                    <i class="fa-solid fa-calendar-days me-2"></i>Kurum Mesai Çizelgesi
+                </button>
+                <p class="text-muted small d-block">Hekiminizin çizelgesini görmek için kartının üzerine tıklayınız.</p>
+            </div>
+            
+            <!-- Hekimlerin E-Tablodan Gelip Yerleşeceği Konteyner -->
+            <div class="row g-4 justify-content-center" id="hekimler-container">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Yükleniyor...</span></div>
+                    <p class="mt-2 text-muted">Kadromuz güncelleniyor...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERSONELİMİZ (Dinamik Alan) -->
+    <section id="personel" class="section-padding bg-light-gray">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="text-primary fw-bold">İdari ve Yardımcı Personelimiz</h2>
+                <div class="mx-auto bg-primary mt-2" style="width: 60px; height: 3px; border-radius: 3px;"></div>
+            </div>
+
+            <!-- Personellerin E-Tablodan Gelip Yerleşeceği Konteyner -->
+            <div class="row g-4 justify-content-center" id="personeller-container">
+                <div class="col-12 text-center py-4">
+                    <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Yükleniyor...</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HİZMETLERİMİZ (Sabit Alan) -->
+    <section id="hizmetler" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="text-primary fw-bold">Hizmetlerimiz</h2>
+                <div class="mx-auto bg-primary mt-2 mb-4" style="width: 60px; height: 3px; border-radius: 3px;"></div>
+            </div>
+            
+            <div class="row g-4 justify-content-center mb-5">
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-stethoscope"></i></div><h6 class="fw-bold mb-0">Poliklinik Hizmetleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-shield-heart"></i></div><h6 class="fw-bold mb-0">Koruyucu Sağlık Hizmetleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-ribbon"></i></div><h6 class="fw-bold mb-0">Kanser Taramaları</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-venus"></i></div><h6 class="fw-bold mb-0">15-49 Yaş Kadın İzlemleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-person-pregnant"></i></div><h6 class="fw-bold mb-0">Gebe ve Lohusa İzlemleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-baby"></i></div><h6 class="fw-bold mb-0">Bebek ve Çocuk İzlemleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-weight-scale"></i></div><h6 class="fw-bold mb-0">Obezite İzlemleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-hands-holding-child"></i></div><h6 class="fw-bold mb-0">Aile Planlaması Hizmetleri</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-syringe"></i></div><h6 class="fw-bold mb-0">Enjeksiyon ve Pansuman</h6></div></div>
+                <div class="col-lg-3 col-md-4 col-sm-6"><div class="service-card py-4 px-3"><div class="avatar-icon avatar-service"><i class="fa-solid fa-vial"></i></div><h6 class="fw-bold mb-0">Tetkik ve Tahlil Hizmetleri</h6></div></div>
+            </div>
+
+            <!-- Kan Alma Uyarı Notu -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="alert alert-danger d-flex align-items-center mb-0 border-0 shadow-sm" role="alert" style="background-color: #f8d7da; color: #842029;">
+                        <i class="fa-solid fa-triangle-exclamation fa-2x me-3"></i>
+                        <div>
+                            <strong>Önemli Bilgilendirme:</strong>
+                            Merkezimizde kan alma işlemleri hafta içi her gün saat <strong>11:00'a kadar</strong> yapılmaktadır.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOTO GALERİ BÖLÜMÜ (Dinamik Alan) -->
+    <section id="galeri" class="section-padding bg-light-gray">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="text-primary fw-bold">Foto Galeri</h2>
+                <div class="mx-auto bg-primary mt-2 mb-4" style="width: 60px; height: 3px; border-radius: 3px;"></div>
+                <p class="text-muted">Kurumumuzdan kareler.</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div id="asmGaleri" class="carousel slide shadow rounded overflow-hidden" data-bs-ride="carousel">
+                        <div class="carousel-indicators" id="galeri-indicators">
+                            <!-- Butonlar JavaScript ile yüklenecek -->
+                        </div>
+                        <div class="carousel-inner" id="galeri-inner">
+                            <!-- Resimler JavaScript ile yüklenecek -->
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#asmGaleri" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Önceki</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#asmGaleri" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Sonraki</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İLETİŞİM VE ULAŞIM -->
+    <section id="iletisim" class="section-padding">
+        <div class="container">
+            <h2 class="text-center text-primary fw-bold mb-5">İletişim ve Ulaşım</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5 class="fw-bold">Adres Bilgileri</h5>
+                    <p>Fatih Mahallesi, 1795. Sokak, No: 28A<br>Bağcılar / İstanbul</p>
+                    <h5 class="fw-bold mt-4">İletişim</h5>
+                    <p><strong>Telefon:</strong> (0212) 446 75 22<br>
+                    <strong>E-posta:</strong> <a href="mailto:20noluasm.bagcilar@gmail.com" class="text-decoration-none fw-medium">20noluasm.bagcilar@gmail.com</a><br>
+                    <strong>Randevu:</strong> MHRS veya ALO 182</p>
+                    <p class="mt-4"><small class="text-muted">* Görüş, öneri ve şikayetleriniz için doğrudan kurumumuzdaki dilek kutularını kullanabilirsiniz.</small></p>
+                </div>
+                <div class="col-md-6">
+                    <iframe src="https://maps.google.com/maps?q=Fatih%20Mahallesi,%201795.%20Sokak,%20No:%2028A,%20Ba%C4%9Fc%C4%B1lar%20/%20%C4%B0stanbul&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="250" style="border:0; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALT BİLGİ (Footer) -->
+    <footer class="py-4 text-center text-white" style="background-color: #0d6efd;">
+        <div class="container">
+            <p class="mb-0 fw-semibold">© 2026 Bağcılar 20 Nolu Aile Sağlığı Merkezi. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- MODALLAR -->
+    
+    <!-- 1. Bireysel Hekim Modalı -->
+    <div class="modal fade" id="hekimModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="modalHekimAd">Hekim Adı</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-1 fw-bold text-secondary" id="modalBirimNo">Birim No</p>
+                    <p class="mb-3 text-success"><i class="fa-solid fa-user-nurse me-1"></i> <span id="modalHemsireAd">Hemşire Adı</span></p>
+                    <hr>
+                    <h6 class="fw-bold mb-3">Çalışma Saatleri Çizelgesi</h6>
+                    <div class="bg-light border rounded d-flex align-items-center justify-content-center mx-auto" style="min-height: 200px; width: 100%;" id="modalCizelgePlaceholderContainer">
+                        <!-- JS buraya resmi basacak -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 2. Genel Çizelge Modalı -->
+    <div class="modal fade" id="genelMesaiModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold">Kurum Mesai Çizelgesi</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <div class="bg-light border rounded d-flex align-items-center justify-content-center mx-auto" style="min-height: 300px; width: 100%;" id="genel-modal-image-container">
+                        <!-- JS buraya resmi basacak -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOTSTRAP SCRIPTLERİ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GOOGLE SHEETS ENTEGRASYON VE ÇALIŞMA SCRİPTİ -->
+    <script>
+        // 1. Google Drive Paylaşım Linkini Resim Görüntüleme Linkine Çeviren Araç
+        function convertDriveLink(url) {
+            if (!url) return "";
+            const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+            return url;
+        }
+
+        // 2. CSV Çözücü Algoritma
+        function parseCSV(str) {
+            const arr = [];
+            let quote = false; 
+            for (let row = 0, col = 0, c = 0; c < str.length; c++) {
+                let cc = str[c], nc = str[c+1];
+                arr[row] = arr[row] || [];
+                arr[row][col] = arr[row][col] || '';
+                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+                if (cc == '"') { quote = !quote; continue; }
+                if (cc == ',' && !quote) { ++col; continue; }
+                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+                arr[row][col] += cc;
+            }
+            return arr;
+        }
+
+        // 3. Verileri Çekme ve Ekrana Basma
+        async function loadData() {
+            try {
+                const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXJuWyGA0QsAtCkXyLPW0PI56Fs-VzyBxSDRqJtSmYQ7iU8IevW8vGrVyYelgpHZfEMsBhL9gVOthW/pub?gid=0&single=true&output=csv";
+                const response = await fetch(sheetUrl);
+                const csvText = await response.text();
+                const rows = parseCSV(csvText);
+                
+                let hekimler = [], ascler = [], personeller = [], genelLink = "", galeri = [];
+
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    if(row.length < 2) continue;
+                    
+                    const type = (row[0] || "").trim().toUpperCase();
+                    const adSoyad = (row[1] || "").trim();
+                    const unvan = (row[2] || "").trim();
+                    const birimNo = (row[3] || "").trim();
+                    const cinsiyet = (row[4] || "").trim().toUpperCase();
+                    const fotoLink = convertDriveLink((row[5] || "").trim());
+
+                    const obj = { type, adSoyad, unvan, birimNo, cinsiyet, fotoLink };
+
+                    if (type === "HEKİM" || type === "HEKIM") hekimler.push(obj);
+                    else if (type === "ASÇ" || type === "ASC") ascler.push(obj);
+                    else if (type === "PERSONEL") personeller.push(obj);
+                    else if (type === "GENEL") genelLink = fotoLink;
+                    else if (type === "GALERİ" || type === "GALERI") galeri.push(obj);
+                }
+
+                // Hekimleri ve Eşleşen Hemşireleri (ASÇ) Ekrana Bas
+                const hekContainer = document.getElementById("hekimler-container");
+                let hekHtml = "";
+                hekimler.forEach(hekim => {
+                    const asc = ascler.find(a => a.birimNo === hekim.birimNo);
+                    const ascText = asc ? `${asc.unvan}: ${asc.adSoyad}` : "ASÇ Atanmamış";
+                    
+                    const avatarClass = hekim.cinsiyet === "K" ? "avatar-dr-f" : "avatar-dr-m";
+                    const hAd = `${hekim.unvan} ${hekim.adSoyad}`;
+                    const hBirim = `${hekim.birimNo} Nolu Birim`;
+                    const fontS = hAd.length > 22 ? "1.1rem" : "1.25rem";
+                    
+                    hekHtml += `
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="person-card" data-bs-toggle="modal" data-bs-target="#hekimModal" 
+                                 onclick="hekimDetayDoldur('${hAd.replace(/'/g, "\\'")}', '${hBirim.replace(/'/g, "\\'")}', '${ascText.replace(/'/g, "\\'")}', '${hekim.fotoLink}')">
+                                <div class="avatar-icon ${avatarClass}"><i class="fa-solid fa-user-doctor"></i></div>
+                                <p class="birim-no">${hBirim}</p>
+                                <h5 class="fw-bold mb-2" style="font-size: ${fontS};">${hAd}</h5>
+                                <div class="nurse-info"><i class="fa-solid fa-user-nurse me-1 text-success"></i> ${ascText}</div>
+                            </div>
+                        </div>`;
+                });
+                hekContainer.innerHTML = hekHtml || "<p class='text-muted'>Hekim listesi boş.</p>";
+
+                // Personelleri Ekrana Bas
+                const perContainer = document.getElementById("personeller-container");
+                let perHtml = "";
+                personeller.forEach(p => {
+                    let icon = "fa-user";
+                    let avClass = "avatar-staff";
+                    const u = p.unvan.toLowerCase();
+                    if(u.includes("sekreter")) { icon = "fa-desktop"; }
+                    else if(u.includes("temizlik")) { icon = "fa-broom"; }
+                    else if(u.includes("ebe") || u.includes("hemşire") || u.includes("att") || u.includes("tıp")) { 
+                        icon = "fa-syringe"; avClass = "avatar-nurse"; 
+                    }
+
+                    perHtml += `
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <div class="person-card staff-card py-4">
+                                <div class="avatar-icon ${avClass}"><i class="fa-solid ${icon}"></i></div>
+                                <h5 class="fw-bold mb-1" style="font-size: 1.1rem;">${p.adSoyad}</h5>
+                                <span class="text-muted d-block lh-sm" style="font-size: 0.85rem;">${p.unvan}</span>
+                            </div>
+                        </div>`;
+                });
+                perContainer.innerHTML = perHtml || "<p class='text-muted'>Personel listesi boş.</p>";
+
+                // Genel Çizelgeyi Modal İçin Hazırla
+                const genelCont = document.getElementById("genel-modal-image-container");
+                if(genelLink) {
+                    genelCont.innerHTML = `<img src="${genelLink}" alt="Tüm ASM Çizelgesi" class="img-fluid rounded shadow-sm" style="max-height: 70vh;">`;
+                } else {
+                    genelCont.innerHTML = `<span class="text-muted"><i class="fa-regular fa-image fa-3x mb-3 d-block"></i>Tüm Kurum Çizelge Görseli Bekleniyor</span>`;
+                }
+
+                // Foto Galeriyi Ekrana Bas
+                const galInner = document.getElementById("galeri-inner");
+                const galInd = document.getElementById("galeri-indicators");
+                let indHtml = "", inHtml = "";
+                
+                if (galeri.length === 0) {
+                    galeri = [ {adSoyad: "Fotoğraf 1 Yüklenecek", fotoLink: ""}, {adSoyad: "Fotoğraf 2 Yüklenecek", fotoLink: ""}, {adSoyad: "Fotoğraf 3 Yüklenecek", fotoLink: ""} ];
+                }
+
+                galeri.forEach((item, index) => {
+                    const active = index === 0 ? "active" : "";
+                    indHtml += `<button type="button" data-bs-target="#asmGaleri" data-bs-slide-to="${index}" class="${active}" aria-label="Fotoğraf ${index+1}"></button>`;
+                    if(item.fotoLink) {
+                        inHtml += `<div class="carousel-item ${active}" style="height: 400px;"><img src="${item.fotoLink}" class="d-block w-100 h-100" style="object-fit: cover;" alt="${item.adSoyad}"></div>`;
+                    } else {
+                        inHtml += `<div class="carousel-item ${active} bg-dark" style="height: 400px;"><div class="d-flex align-items-center justify-content-center h-100 text-white"><div class="text-center"><i class="fa-regular fa-image fa-3x mb-3 text-secondary"></i><h5>${item.adSoyad}</h5></div></div></div>`;
+                    }
+                });
+                galInd.innerHTML = indHtml;
+                galInner.innerHTML = inHtml;
+
+            } catch (error) {
+                console.error("Veri çekilemedi:", error);
+                document.getElementById("hekimler-container").innerHTML = "<p class='text-danger'>Sistem verileri yüklenirken hata oluştu. Lütfen bağlantınızı kontrol edin.</p>";
+                document.getElementById("personeller-container").innerHTML = "";
+            }
+        }
+
+        // Tıklanan doktorun bilgilerini modala dolduran script
+        function hekimDetayDoldur(ad, birim, hemsire, resimLink) {
+            document.getElementById('modalHekimAd').textContent = ad;
+            document.getElementById('modalBirimNo').textContent = birim;
+            document.getElementById('modalHemsireAd').textContent = hemsire;
+            
+            const cizContainer = document.getElementById("modalCizelgePlaceholderContainer");
+            if(resimLink && resimLink.trim() !== "") {
+                cizContainer.innerHTML = `<img src="${resimLink}" alt="Mesai Çizelgesi" class="img-fluid rounded" style="max-height: 60vh;">`;
+            } else {
+                cizContainer.innerHTML = `<span class="text-muted"><i class="fa-regular fa-image me-2"></i>Çizelge Görseli Bekleniyor</span>`;
+            }
+        }
+
+        // Karanlık/Aydınlık Tema Değiştirici
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-bs-theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                htmlElement.setAttribute('data-bs-theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Sayfa Yüklendiğinde Verileri Çek
+        document.addEventListener("DOMContentLoaded", loadData);
+    </script>
+</body>
+</html>
