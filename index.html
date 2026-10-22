@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bağcılar 20 Nolu Aile Sağlığı Merkezi</title>
     
-    <!-- FAVICON (Tarayıcı Sekmesi Logosu) -->
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/d/d4/T.C._Sa%C4%9Fl%C4%B1k_Bakanl%C4%B1%C4%9F%C4%B1_Logo.svg" type="image/svg+xml">
+    <!-- FAVICON (Tarayıcı Sekmesi Logosu - Yerel Klasörden) -->
+    <link rel="icon" href="logo.png" type="image/png">
     
-    <!-- Başlangıç Modunu Sistem Tercihine Göre Ayarlama (Ekran Titremesini Önler) -->
+    <!-- Başlangıç Modunu Sistem Tercihine Göre Ayarlama -->
     <script>
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
@@ -51,7 +51,7 @@
         [data-bs-theme="dark"] .modal-header { border-bottom-color: #333; }
         [data-bs-theme="dark"] .bg-light { background-color: #2d2d2d !important; border-color: #444 !important; }
         
-        /* Navbar Logosu Karanlık Mod Ayarı (Siyah yazıların görünmesi için beyaz zemin) */
+        /* Navbar Logosu Karanlık Mod Ayarı (Karanlıkta Logonun Arkasını Beyaz Yuvarlak Yapar) */
         [data-bs-theme="dark"] .sb-logo-nav { background-color: #ffffff; border-radius: 50%; padding: 2px; }
 
         .person-card, .service-card {
@@ -95,7 +95,7 @@
     <nav id="navbar" class="navbar navbar-expand-lg bg-white sticky-top py-3">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="#">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/T.C._Sa%C4%9Fl%C4%B1k_Bakanl%C4%B1%C4%9F%C4%B1_Logo.svg" alt="T.C. Sağlık Bakanlığı Logo" height="32" class="me-2 sb-logo-nav">
+                <img src="logo.png" alt="T.C. Sağlık Bakanlığı Logo" height="32" class="me-2 sb-logo-nav">
                 Bağcılar 20 Nolu ASM
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -120,8 +120,8 @@
     <!-- KARŞILAMA EKRANI -->
     <header class="hero-section">
         <div class="container position-relative z-1">
-            <!-- Bakanlık Logosu (Ortalanmış) -->
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/T.C._Sa%C4%9Fl%C4%B1k_Bakanl%C4%B1%C4%9F%C4%B1_Logo.svg" alt="T.C. Sağlık Bakanlığı" height="110" class="mb-4">
+            <!-- Bakanlık Logosu (Ortalanmış ve Yerel Klasörden) -->
+            <img src="logo.png" alt="T.C. Sağlık Bakanlığı" height="110" class="mb-4">
             
             <h1 class="display-4 fw-bold mb-3">T.C. Sağlık Bakanlığı<br>Bağcılar 20 Nolu Aile Sağlığı Merkezi</h1>
             
