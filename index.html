@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bağcılar 20 Nolu Aile Sağlığı Merkezi</title>
     
-    <!-- FAVICON (Tarayıcı Sekmesi Logosu - Yerel Klasörden) -->
+    <!-- SEO (ARAMA MOTORU) AYARLARI -->
+    <title>Bağcılar 20 Nolu Aile Sağlığı Merkezi</title>
+    <meta name="description" content="Bağcılar 20 Nolu Aile Sağlığı Merkezi. Koruyucu sağlık hizmetleri, poliklinik, aşı, bebek/gebe izlem ve birinci basamak teşhis/tedavi merkezi.">
+    <meta name="keywords" content="bağcılar 20 nolu asm, aile sağlığı merkezi, sağlık ocağı, bağcılar sağlık ocağı, doktor, aşı, kan tahlili">
+    <meta property="og:title" content="Bağcılar 20 Nolu Aile Sağlığı Merkezi">
+    <meta property="og:description" content="Koruyucu sağlık hizmetleri ve birinci basamak teşhis/tedavi merkezi.">
+    <meta property="og:type" content="website">
+    
+    <!-- FAVICON (Tarayıcı Sekmesi Logosu) -->
     <link rel="icon" href="logo.png" type="image/png">
     
     <!-- Başlangıç Modunu Sistem Tercihine Göre Ayarlama -->
@@ -47,7 +54,7 @@
         [data-bs-theme="dark"] .bg-light { background-color: #2d2d2d !important; border-color: #444 !important; }
         [data-bs-theme="dark"] .sb-logo-nav { background-color: #ffffff; border-radius: 50%; padding: 2px; }
 
-        /* ESKİ UÇTAN UCA HERO EKRANI DİZAYNI */
+        /* UÇTAN UCA HERO EKRANI DİZAYNI */
         .hero-section { 
             background: linear-gradient(135deg, rgba(13,110,253,0.92) 0%, rgba(0,168,255,0.92) 100%), url('https://images.unsplash.com/photo-1584982751601-97dcc096659c?q=80&w=2072&auto=format&fit=crop');
             background-size: cover; background-position: center;
@@ -59,7 +66,7 @@
         }
         .sb-logo-nav { width: 36px; height: 36px; object-fit: contain; }
 
-        /* YENİ TEMA ANAHTARI (PILL SWITCH) */
+        /* TEMA ANAHTARI (PILL SWITCH) */
         .theme-switch-wrapper { display: flex; align-items: center; }
         .theme-switch {
             position: relative; width: 68px; height: 34px; background-color: #343a40;
@@ -124,7 +131,6 @@
                     <li class="nav-item"><a class="nav-link fw-semibold text-dark px-3" href="#galeri">Foto Galeri</a></li>
                     <li class="nav-item"><a class="nav-link fw-semibold text-dark px-3" href="#iletisim">İletişim</a></li>
                 </ul>
-                <!-- YENİ TEMA ANAHTARI -->
                 <div class="theme-switch-wrapper ms-lg-2 mt-3 mt-lg-0 justify-content-center">
                     <div class="theme-switch" id="themeToggle" title="Temayı Değiştir">
                         <i class="fa-solid fa-moon"></i>
@@ -136,10 +142,9 @@
         </div>
     </nav>
 
-    <!-- UÇTAN UCA HERO EKRANI (Beyaz Daireli Logo Korundu) -->
+    <!-- UÇTAN UCA HERO EKRANI -->
     <header class="hero-section">
         <div class="container position-relative z-1">
-            <!-- Beyaz Daire İçinde Bakanlık Logosu -->
             <img src="logo.png" alt="T.C. Sağlık Bakanlığı" class="sb-logo-hero">
             
             <h1 class="display-4 fw-bold mb-3">T.C. Sağlık Bakanlığı<br>Bağcılar 20 Nolu Aile Sağlığı Merkezi</h1>
@@ -163,7 +168,7 @@
         </div>
     </header>
 
-    <!-- HEKİMLERİMİZ (Merkezlenmiş Eski Başlık Tasarımı) -->
+    <!-- HEKİMLERİMİZ -->
     <section id="hekimler" class="section-padding">
         <div class="container">
             <div class="text-center mb-4">
@@ -285,8 +290,8 @@
         </div>
     </section>
 
-    <!-- ALT BİLGİ (Footer) -->
-    <footer class="py-4 text-center text-white" style="background-color: #0d6efd;">
+    <!-- SADELEŞTİRİLMİŞ ALT BİLGİ (Footer) -->
+    <footer class="py-4 text-center text-muted bg-light-gray border-top">
         <div class="container">
             <p class="mb-0 fw-semibold">© 2026 Bağcılar 20 Nolu Aile Sağlığı Merkezi. Tüm hakları saklıdır.</p>
         </div>
@@ -402,7 +407,8 @@
                     const avatarClass = hekim.cinsiyet === "K" ? "avatar-dr-f" : "avatar-dr-m";
                     const hAd = `${hekim.unvan} ${hekim.adSoyad}`;
                     const hBirim = `${hekim.birimNo} Nolu Birim`;
-                    const fontS = hAd.length > 22 ? "1.1rem" : "1.25rem";
+                    // YÜKSELTİLEN FONT SINIRI (30 Karakter)
+                    const fontS = hAd.length > 30 ? "1.1rem" : "1.25rem";
                     
                     hekHtml += `
                         <div class="col-lg-4 col-md-6 col-sm-6">
