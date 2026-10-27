@@ -175,10 +175,13 @@
                 <h2 class="text-primary fw-bold">Aile Hekimlerimiz</h2>
                 <div class="mx-auto bg-primary mt-2 mb-4" style="width: 60px; height: 3px; border-radius: 3px;"></div>
                 
+                <!-- Kurum Mesai Çizelgesi Butonu (İleride kullanılmak üzere inaktif bırakıldı)
                 <button class="btn btn-outline-primary mb-4 fw-semibold shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#genelMesaiModal">
                     <i class="fa-solid fa-calendar-days me-2"></i>Kurum Mesai Çizelgesi
                 </button>
-                <p class="text-muted small d-block">Hekiminizin çizelgesini (PDF/Görsel) görmek için kartının üzerine tıklayınız.</p>
+                -->
+                
+                <p class="text-muted small d-block">Hekiminizin çizelgesini görmek için kartının üzerine tıklayınız.</p>
             </div>
             
             <div class="row g-4 justify-content-center" id="hekimler-container">
@@ -281,7 +284,7 @@
                     <p><strong>Telefon:</strong> (0212) 446 75 22<br>
                     <strong>E-posta:</strong> <a href="mailto:20noluasm.bagcilar@gmail.com" class="text-decoration-none fw-medium">20noluasm.bagcilar@gmail.com</a><br>
                     <strong>Randevu:</strong> MHRS veya ALO 182</p>
-                    <p class="mt-4"><small class="text-muted">* Görüş, öneri ve şikayetleriniz için doğrudan kurumumuzdaki dilek kutularını kullanabilirsiniz.</small></p>
+                    <p class="mt-4"><small class="text-muted">* Görüş, öneri ve şikayetleriniz için kurumumuzdaki dilek kutularını kullanabilirsiniz.</small></p>
                 </div>
                 <div class="col-md-6">
                     <iframe src="https://maps.google.com/maps?q=Fatih%20Mahallesi,%201795.%20Sokak,%20No:%2028A,%20Ba%C4%9Fc%C4%B1lar%20/%20%C4%B0stanbul&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="250" style="border:0; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" allowfullscreen="" loading="lazy"></iframe>
@@ -407,7 +410,7 @@
                     const avatarClass = hekim.cinsiyet === "K" ? "avatar-dr-f" : "avatar-dr-m";
                     const hAd = `${hekim.unvan} ${hekim.adSoyad}`;
                     const hBirim = `${hekim.birimNo} Nolu Birim`;
-                    // YÜKSELTİLEN FONT SINIRI (30 Karakter)
+                    
                     const fontS = hAd.length > 30 ? "1.1rem" : "1.25rem";
                     
                     hekHtml += `
@@ -451,7 +454,7 @@
                 if(genelLink) {
                     genelCont.innerHTML = `<iframe src="${genelLink}" style="width: 100%; height: 600px; border: none;"></iframe>`;
                 } else {
-                    genelCont.innerHTML = `<span class="text-muted"><i class="fa-regular fa-file-pdf fa-3x mb-3 d-block"></i>Tüm Kurum Çizelge (PDF/Görsel) Bekleniyor</span>`;
+                    genelCont.innerHTML = `<span class="text-muted"><i class="fa-regular fa-file-pdf fa-3x mb-3 d-block"></i>Tüm Kurum Çizelgesi Bekleniyor</span>`;
                 }
 
                 const galInner = document.getElementById("galeri-inner");
@@ -490,7 +493,7 @@
             if(resimLink && resimLink.trim() !== "") {
                 cizContainer.innerHTML = `<iframe src="${resimLink}" style="width: 100%; height: 450px; border: none;"></iframe>`;
             } else {
-                cizContainer.innerHTML = `<span class="text-muted"><i class="fa-regular fa-file-pdf fa-3x mb-3 d-block"></i>Çizelge (PDF/Görsel) Bekleniyor</span>`;
+                cizContainer.innerHTML = `<span class="text-muted"><i class="fa-regular fa-file-pdf fa-3x mb-3 d-block"></i>Çizelge Bekleniyor</span>`;
             }
         }
 
