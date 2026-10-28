@@ -255,7 +255,8 @@
             
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div id="asmGaleri" class="carousel slide shadow rounded overflow-hidden" data-bs-ride="carousel">
+                    <!-- Otomatik kaydırma iptal edildi (data-bs-interval="false") -->
+                    <div id="asmGaleri" class="carousel slide shadow rounded overflow-hidden" data-bs-interval="false">
                         <div class="carousel-indicators" id="galeri-indicators"></div>
                         <div class="carousel-inner" id="galeri-inner"></div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#asmGaleri" data-bs-slide="prev">
@@ -301,6 +302,8 @@
     </footer>
 
     <!-- MODALLAR -->
+    
+    <!-- 1. Hekim Çizelge Modalı -->
     <div class="modal fade" id="hekimModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow">
@@ -313,7 +316,6 @@
                         <p class="mb-1 fw-bold text-secondary" id="modalBirimNo">Birim No</p>
                         <p class="mb-3 text-success"><i class="fa-solid fa-user-nurse me-1"></i> <span id="modalHemsireAd">Hemşire Adı</span></p>
                     </div>
-                    <!-- Yüksekliği 70vh ve genişliği %100'e sabitlenmiş, sığdırmalı konteyner -->
                     <div class="bg-light d-flex align-items-center justify-content-center mx-auto" style="height: 70vh; width: 100%; border-radius: 0 0 8px 8px; overflow: hidden;" id="modalCizelgePlaceholderContainer">
                     </div>
                 </div>
@@ -321,6 +323,7 @@
         </div>
     </div>
     
+    <!-- 2. Genel Çizelge Modalı -->
     <div class="modal fade" id="genelMesaiModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
@@ -329,8 +332,35 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
                 </div>
                 <div class="modal-body text-center p-0">
-                    <!-- Yüksekliği 80vh ve genişliği %100'e sabitlenmiş, sığdırmalı konteyner -->
                     <div class="bg-light d-flex align-items-center justify-content-center mx-auto" style="height: 80vh; width: 100%; border-radius: 0 0 8px 8px; overflow: hidden;" id="genel-modal-image-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. YENİ: Foto Galeri Tam Ekran Modalı -->
+    <div class="modal fade" id="galeriModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-header border-0 pb-0 position-absolute top-0 end-0 z-3" style="padding: 1rem;">
+                    <!-- Çarpı butonu arka planlı yapılarak her fotoğrafta görünür kılındı -->
+                    <button type="button" class="btn-close btn-close-white shadow-none bg-dark rounded-circle p-2 opacity-75" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body text-center p-0">
+                    <!-- Otomatik kaydırma iptal edildi (data-bs-interval="false") -->
+                    <div id="modalGaleriCarousel" class="carousel slide" data-bs-interval="false">
+                        <div class="carousel-inner" id="modal-galeri-inner">
+                            <!-- JS buraya orijinal kaliteli fotoları sığdırarak basacak -->
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#modalGaleriCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Önceki</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#modalGaleriCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Sonraki</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -389,7 +419,6 @@
                     let fotoLink = "";
                     if(type === "GALERİ" || type === "GALERI") {
                         const match = (row[5] || "").match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-                        // Drive erişim hatalarını aşan Thumbnail API
                         fotoLink = match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1200` : (row[5] || "").trim();
                     } else {
                         fotoLink = convertDriveLink((row[5] || "").trim());
@@ -455,7 +484,6 @@
 
                 const genelCont = document.getElementById("genel-modal-image-container");
                 if(genelLink) {
-                    // Yükseklik ve genişlik %100 yapılarak taşkınlık (scroll) önlendi
                     genelCont.innerHTML = `<iframe src="${genelLink}" style="width: 100%; height: 100%; border: none;"></iframe>`;
                 } else {
                     genelCont.innerHTML = `<span class="text-muted"><i class="fa-regular fa-file-pdf fa-3x mb-3 d-block"></i>Tüm Kurum Çizelgesi Bekleniyor</span>`;
@@ -463,9 +491,10 @@
 
                 const galInner = document.getElementById("galeri-inner");
                 const galInd = document.getElementById("galeri-indicators");
-                let indHtml = "", inHtml = "";
+                const modalGalInner = document.getElementById("modal-galeri-inner");
                 
-                // Varsayılan slot sayısı 6'ya sabitlendi
+                let indHtml = "", inHtml = "", modalInHtml = "";
+                
                 if (galeri.length === 0) {
                     galeri = [ 
                         {adSoyad: "Fotoğraf 1 Yüklenecek", fotoLink: ""}, {adSoyad: "Fotoğraf 2 Yüklenecek", fotoLink: ""}, {adSoyad: "Fotoğraf 3 Yüklenecek", fotoLink: ""},
@@ -477,17 +506,27 @@
                     const active = index === 0 ? "active" : "";
                     indHtml += `<button type="button" data-bs-target="#asmGaleri" data-bs-slide-to="${index}" class="${active}" aria-label="Fotoğraf ${index+1}"></button>`;
                     
-                    // Kırık resmi (Hatalı linki) gizleyen ve yedek tasarıma dönen onerror koruması
                     if(item.fotoLink && item.fotoLink.length > 5) {
+                        // Tıklanabilir (cursor: pointer) ana sayfa galerisi - w1200 kalitesinde
                         inHtml += `<div class="carousel-item ${active}" style="height: 400px;">
-                            <img src="${item.fotoLink}" class="d-block w-100 h-100" style="object-fit: cover;" alt="${item.adSoyad}" onerror="this.onerror=null; this.outerHTML='<div class=\\'d-flex align-items-center justify-content-center h-100 bg-dark text-white\\'><div class=\\'text-center\\'><i class=\\'fa-regular fa-image fa-3x mb-3 text-secondary\\'></i><h5>Resim Bekleniyor</h5></div></div>';">
+                            <img src="${item.fotoLink}" class="d-block w-100 h-100" style="object-fit: cover; cursor: pointer;" alt="${item.adSoyad}" data-bs-toggle="modal" data-bs-target="#galeriModal" onclick="acGaleriModal(${index})" onerror="this.onerror=null; this.outerHTML='<div class=\\'d-flex align-items-center justify-content-center h-100 bg-dark text-white\\'><div class=\\'text-center\\'><i class=\\'fa-regular fa-image fa-3x mb-3 text-secondary\\'></i><h5>Resim Bekleniyor</h5></div></div>';">
                         </div>`;
+                        
+                        // Modal için Tam Kalite (sz=s0) link üretimi ve object-fit: contain ayarı (kesilmeden sığdır)
+                        const tamKaliteLink = item.fotoLink.replace('&sz=w1200', '&sz=s0');
+                        modalInHtml += `<div class="carousel-item ${active}" style="height: 85vh;">
+                            <img src="${tamKaliteLink}" class="d-block w-100 h-100" style="object-fit: contain;" alt="${item.adSoyad}">
+                        </div>`;
+                        
                     } else {
                         inHtml += `<div class="carousel-item ${active} bg-dark" style="height: 400px;"><div class="d-flex align-items-center justify-content-center h-100 text-white"><div class="text-center"><i class="fa-regular fa-image fa-3x mb-3 text-secondary"></i><h5>${item.adSoyad}</h5></div></div></div>`;
+                        modalInHtml += `<div class="carousel-item ${active} bg-dark" style="height: 85vh;"><div class="d-flex align-items-center justify-content-center h-100 text-white"><div class="text-center"><i class="fa-regular fa-image fa-3x mb-3 text-secondary"></i><h5>${item.adSoyad}</h5></div></div></div>`;
                     }
                 });
+                
                 galInd.innerHTML = indHtml;
                 galInner.innerHTML = inHtml;
+                modalGalInner.innerHTML = modalInHtml;
 
             } catch (error) {
                 console.error("Veri çekilemedi:", error);
@@ -503,11 +542,17 @@
             
             const cizContainer = document.getElementById("modalCizelgePlaceholderContainer");
             if(resimLink && resimLink.trim() !== "") {
-                // Yükseklik ve genişlik %100 yapılarak taşkınlık (scroll) önlendi
                 cizContainer.innerHTML = `<iframe src="${resimLink}" style="width: 100%; height: 100%; border: none;"></iframe>`;
             } else {
                 cizContainer.innerHTML = `<span class="text-muted"><i class="fa-regular fa-file-pdf fa-3x mb-3 d-block"></i>Çizelge Bekleniyor</span>`;
             }
+        }
+
+        // Tıklanan fotoğrafı modaldaki doğru indekse hizalayan fonksiyon
+        function acGaleriModal(index) {
+            const modalCarouselElement = document.getElementById('modalGaleriCarousel');
+            const carouselInstance = bootstrap.Carousel.getOrCreateInstance(modalCarouselElement);
+            carouselInstance.to(index);
         }
 
         const themeToggleBtn = document.getElementById('themeToggle');
